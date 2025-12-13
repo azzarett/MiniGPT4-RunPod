@@ -16,3 +16,10 @@ bitsandbytes
 opencv-python-headless
 sentence-transformers
 requests
+pandas
+matplotlib
+pyyaml
+tqdm
+iopath
+psutil
+scikit-image
