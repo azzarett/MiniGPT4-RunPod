@@ -1,17 +1,18 @@
 FROM python:3.10-slim
 
-# Устанавливаем зависимости системы
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
-    libgl1 libglib2.0-0 poppler-utils tesseract-ocr && \
+    libgl1 libglib2.0-0 poppler-utils tesseract-ocr git wget && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Копируем и устанавливаем Python зависимости
+# Copy and install Python dependencies
 COPY requirements.txt .
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# Копируем весь код
+# Copy the rest of the application
 COPY . .
 
-# Запускаемый файл не нужен, RunPod вызывает handler.py напрямую
+# Set the entrypoint
+CMD [ "python", "-u", "handler.py" ]
