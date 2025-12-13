@@ -229,3 +229,9 @@ payload = {
 r = requests.post("https://your-runpod-url/handler", json=payload)
 print(r.json())
 
+# MiniGPT4-RunPod
+
+Serverless MiniGPT-4 for RunPod.
+
+[![Runpod](https://api.runpod.io/badge/azzarett/MiniGPT4-RunPod)](https://console.runpod.io/hub/azzarett/MiniGPT4-RunPod)
+

@@ -2,11 +2,14 @@ from PIL import Image
 from minigpt4 import MiniGPT4
 import io
 import base64
+import os
 
-# Указываем путь к PyTorch чекпоинту
-model = MiniGPT4("checkpoints/mini-gpt4-7b/model.pth")
+# Путь к модели через env
+model_path = os.environ.get("MODEL_PATH", "checkpoints/mini-gpt4-7b/model.pth")
+model = MiniGPT4(model_path)
 
-def handler(event):
+
+def handler(event, context):
     try:
         image_bytes = base64.b64decode(event["file"])
         img = Image.open(io.BytesIO(image_bytes))
