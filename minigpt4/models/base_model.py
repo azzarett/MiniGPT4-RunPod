@@ -17,8 +17,14 @@ from transformers import LlamaTokenizer
 from peft import (
     LoraConfig,
     get_peft_model,
-    prepare_model_for_int8_training,
 )
+
+# Handle different versions of peft
+try:
+    from peft import prepare_model_for_int8_training
+except ImportError:
+    # In newer versions of peft, use prepare_model_for_kbit_training instead
+    from peft import prepare_model_for_kbit_training as prepare_model_for_int8_training
 
 from minigpt4.common.dist_utils import download_cached_file
 from minigpt4.common.utils import get_abs_path, is_url
