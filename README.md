@@ -204,3 +204,28 @@ If you're using MiniGPT-4/MiniGPT-v2 in your research or applications, please ci
 This repository is under [BSD 3-Clause License](LICENSE.md).
 Many codes are based on [Lavis](https://github.com/salesforce/LAVIS) with 
 BSD 3-Clause License [here](LICENSE_Lavis.md).
+
+
+# MiniGPT4-RunPod
+
+Минимальный репозиторий для запуска MiniGPT-4 на RunPod Serverless.
+
+## Использование
+
+1. Base64-кодируем изображение и отправляем вместе с промтом в handler:
+
+```python
+import requests
+import base64
+
+with open("page1.png", "rb") as f:
+    encoded_file = base64.b64encode(f.read()).decode()
+
+payload = {
+    "file": encoded_file,
+    "instruction": "Summarize this document."
+}
+
+r = requests.post("https://your-runpod-url/handler", json=payload)
+print(r.json())
+
