@@ -2,9 +2,7 @@ torch
 torchvision
 transformers
 minigpt4
-fastapi
-uvicorn
-pdf2image
 pillow
+pdf2image
 python-docx
 pytesseract

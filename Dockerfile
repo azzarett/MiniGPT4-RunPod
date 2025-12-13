@@ -1,11 +1,17 @@
-FROM nvidia/cuda:12.1.105-cudnn8-runtime-ubuntu22.04
+FROM python:3.10-slim
 
+# Устанавливаем зависимости системы
 RUN apt-get update && apt-get install -y \
-    python3 python3-pip git libgl1 libglib2.0-0 poppler-utils tesseract-ocr
+    libgl1 libglib2.0-0 poppler-utils tesseract-ocr && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
+
+# Копируем и устанавливаем Python зависимости
 COPY requirements.txt .
-RUN pip3 install --upgrade pip && pip3 install -r requirements.txt
+RUN pip install --upgrade pip && pip install -r requirements.txt
+
+# Копируем весь код
 COPY . .
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Запускаемый файл не нужен, RunPod вызывает handler.py напрямую
