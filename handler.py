@@ -55,6 +55,7 @@ def setup_model():
     cfg_path = os.environ.get("CFG_PATH", "eval_configs/minigpt4_eval.yaml")
     model_path = os.environ.get("MODEL_PATH", "checkpoints/mini-gpt4-7b/model.pth")
     model_url = os.environ.get("MODEL_URL", "https://huggingface.co/Vision-CAIR/MiniGPT-4/resolve/main/model.pth")
+    llama_model = os.environ.get("LLAMA_MODEL", "lmsys/vicuna-7b-v1.3")
     gpu_id = int(os.environ.get("GPU_ID", 0))
     
     # Auto-download model if not present
@@ -71,6 +72,9 @@ def setup_model():
 
     model_config = cfg.model_cfg
     model_config.device_8bit = args.gpu_id
+    # Override llama model path (HF repo or local path)
+    if llama_model:
+        model_config.llama_model = llama_model
     
     model_cls = registry.get_model_class(model_config.arch)
     model = model_cls.from_config(model_config).to('cuda:{}'.format(args.gpu_id))
