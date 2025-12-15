@@ -13,7 +13,7 @@ webdataset
 decord
 peft==0.2.0
 accelerate==0.20.3
-bitsandbytes==0.37.0
+bitsandbytes==0.39.0
 opencv-python-headless
 sentence-transformers
 requests
