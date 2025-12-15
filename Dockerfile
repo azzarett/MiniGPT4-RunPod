@@ -2,7 +2,7 @@ FROM pytorch/pytorch:2.0.0-cuda11.7-cudnn8-runtime
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    libgl1 libglib2.0-0 poppler-utils tesseract-ocr git wget && \
+    libgl1 libglib2.0-0 poppler-utils tesseract-ocr git wget build-essential python3-dev && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
