@@ -24,7 +24,7 @@ tqdm
 iopath
 psutil
 scikit-image
-visual-genome
+git+https://github.com/ranjaykrishna/visual_genome_python_driver.git
 wandb
 huggingface-hub==0.18.0
 regex==2022.10.31
