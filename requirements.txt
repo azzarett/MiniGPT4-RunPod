@@ -21,7 +21,7 @@ pandas
 matplotlib
 pyyaml
 tqdm
-# iopath
+iopath
 psutil
 scikit-image
 # git+https://github.com/ranjaykrishna/visual_genome_python_driver.git
