@@ -15,6 +15,8 @@ os.environ['HF_HOME'] = '/runpod-volume/cache'
 os.environ['HF_HUB_CACHE'] = '/runpod-volume/cache/hub'
 os.environ['TRANSFORMERS_CACHE'] = '/runpod-volume/cache/transformers'
 
+print(f"HF_HOME set to: {os.environ.get('HF_HOME')}")
+
 # Setup configuration
 class Args:
     def __init__(self, cfg_path, gpu_id=0, options=None):
