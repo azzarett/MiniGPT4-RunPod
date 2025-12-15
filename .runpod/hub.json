@@ -1,0 +1,38 @@
+{
+  "title": "MiniGPT4 RunPod",
+  "description": "MiniGPT-4 Serverless Worker",
+  "type": "serverless",
+  "category": "image",
+  "iconUrl": "https://github.com/Vision-CAIR/MiniGPT-4/raw/main/minigpt4_logo.png",
+  "config": {
+    "runsOn": "GPU",
+    "containerDiskInGb": 60,
+    "presets": [
+      {
+        "name": "Default",
+        "defaults": {
+          "MODEL_PATH": "checkpoints/mini-gpt4-7b/model.pth",
+          "CFG_PATH": "eval_configs/minigpt4_eval.yaml"
+        }
+      }
+    ],
+    "env": [
+      {
+        "key": "MODEL_PATH",
+        "value": "checkpoints/mini-gpt4-7b/model.pth"
+      },
+      {
+        "key": "MODEL_URL",
+        "value": "https://huggingface.co/Vision-CAIR/MiniGPT-4/resolve/main/model.pth"
+      },
+      {
+        "key": "LLAMA_MODEL",
+        "value": "lmsys/vicuna-7b-v1.3"
+      },
+      {
+        "key": "CFG_PATH",
+        "value": "eval_configs/minigpt4_eval.yaml"
+      }
+    ]
+  }
+}
