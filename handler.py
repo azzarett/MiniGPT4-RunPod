@@ -10,6 +10,11 @@ from minigpt4.common.config import Config
 from minigpt4.common.registry import registry
 from minigpt4.conversation.conversation import Chat, CONV_VISION_Vicuna0, CONV_VISION_LLama2
 
+# Set HuggingFace cache to /runpod-volume/cache to use Network Volume
+os.environ['HF_HOME'] = '/runpod-volume/cache'
+os.environ['HF_HUB_CACHE'] = '/runpod-volume/cache/hub'
+os.environ['TRANSFORMERS_CACHE'] = '/runpod-volume/cache/transformers'
+
 # Setup configuration
 class Args:
     def __init__(self, cfg_path, gpu_id=0, options=None):
@@ -53,7 +58,8 @@ def download_model(model_url, model_path):
 
 def setup_model():
     cfg_path = os.environ.get("CFG_PATH", "eval_configs/minigpt4_eval.yaml")
-    model_path = os.environ.get("MODEL_PATH", "checkpoints/mini-gpt4-7b/model.pth")
+    # Update default model path to use volume
+    model_path = os.environ.get("MODEL_PATH", "/runpod-volume/checkpoints/mini-gpt4-7b/model.pth")
     model_url = os.environ.get("MODEL_URL", "https://huggingface.co/Vision-CAIR/MiniGPT-4/resolve/main/model.pth")
     llama_model = os.environ.get("LLAMA_MODEL", "lmsys/vicuna-7b-v1.3")
     gpu_id = int(os.environ.get("GPU_ID", 0))
@@ -85,7 +91,7 @@ def setup_model():
     return model, vis_processor, args.gpu_id, model_config.model_type
 
 print("Loading model...")
-print(f"Model path: {os.environ.get('MODEL_PATH', 'checkpoints/mini-gpt4-7b/model.pth')}")
+print(f"Model path: {os.environ.get('MODEL_PATH', '/runpod-volume/checkpoints/mini-gpt4-7b/model.pth')}")
 # Initialize model globally to cache it
 try:
     model, vis_processor, gpu_id, model_type = setup_model()

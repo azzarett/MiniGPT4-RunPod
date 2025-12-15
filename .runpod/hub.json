@@ -6,7 +6,7 @@
   "iconUrl": "https://github.com/Vision-CAIR/MiniGPT-4/raw/main/minigpt4_logo.png",
   "config": {
     "runsOn": "GPU",
-    "containerDiskInGb": 80,
+    "containerDiskInGb": 100,
     "presets": [
       {
         "name": "Default",
@@ -19,7 +19,7 @@
     "env": [
       {
         "key": "MODEL_PATH",
-        "value": "checkpoints/mini-gpt4-7b/model.pth"
+        "value": "/runpod-volume/checkpoints/mini-gpt4-7b/model.pth"
       },
       {
         "key": "MODEL_URL",
@@ -32,6 +32,18 @@
       {
         "key": "CFG_PATH",
         "value": "eval_configs/minigpt4_eval.yaml"
+      },
+      {
+        "key": "HF_HOME",
+        "value": "/runpod-volume/cache"
+      },
+      {
+        "key": "HF_HUB_CACHE",
+        "value": "/runpod-volume/cache/hub"
+      },
+      {
+        "key": "TRANSFORMERS_CACHE",
+        "value": "/runpod-volume/cache/transformers"
       }
     ]
   }

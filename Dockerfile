@@ -14,6 +14,9 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 # Copy the rest of the application
 COPY . .
 
+# Create volume directory structure
+RUN mkdir -p /runpod-volume/cache /runpod-volume/checkpoints
+
 # Model will be auto-downloaded on first run if not present
 # To pre-download during build (optional, adds ~13GB to image):
 # RUN mkdir -p checkpoints/mini-gpt4-7b && \
