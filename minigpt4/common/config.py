@@ -98,6 +98,10 @@ class Config:
         for dataset_name in datasets:
             builder_cls = registry.get_builder_class(dataset_name)
 
+            if builder_cls is None:
+                logging.warning(f"Dataset builder for {dataset_name} not found. Skipping.")
+                continue
+
             dataset_config_type = datasets[dataset_name].get("type", "default")
             dataset_config_path = builder_cls.default_config_path(
                 type=dataset_config_type
