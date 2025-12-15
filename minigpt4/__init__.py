@@ -12,10 +12,10 @@ from omegaconf import OmegaConf
 
 from minigpt4.common.registry import registry
 
-from minigpt4.datasets.builders import *
+# from minigpt4.datasets.builders import *
 from minigpt4.models import *
 from minigpt4.processors import *
-from minigpt4.tasks import *
+# from minigpt4.tasks import *
 
 
 root_dir = os.path.dirname(os.path.abspath(__file__))
