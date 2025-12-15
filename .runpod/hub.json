@@ -6,7 +6,7 @@
   "iconUrl": "https://github.com/Vision-CAIR/MiniGPT-4/raw/main/minigpt4_logo.png",
   "config": {
     "runsOn": "GPU",
-    "containerDiskInGb": 60,
+    "containerDiskInGb": 80,
     "presets": [
       {
         "name": "Default",
