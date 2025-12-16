@@ -191,6 +191,7 @@ def handler(event):
                                   max_new_tokens=300,
                                   max_length=2000)[0]
         print("Answer generated.")
+        print(f"LLM Response: {llm_message}")
                                   
         return {"output": llm_message}
         
