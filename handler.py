@@ -6,6 +6,7 @@ import runpod
 import requests
 from PIL import Image
 from pathlib import Path
+from omegaconf import OmegaConf
 from minigpt4.common.config import Config
 from minigpt4.common.registry import registry
 from minigpt4.conversation.conversation import Chat, CONV_VISION_Vicuna0, CONV_VISION_LLama2
@@ -87,7 +88,12 @@ def setup_model():
     model_cls = registry.get_model_class(model_config.arch)
     model = model_cls.from_config(model_config).to('cuda:{}'.format(args.gpu_id))
     
-    vis_processor_cfg = cfg.datasets_cfg.cc_sbu_align.vis_processor.train
+    # Manually construct visual processor config since we disabled dataset builders
+    # vis_processor_cfg = cfg.datasets_cfg.cc_sbu_align.vis_processor.train
+    vis_processor_cfg = OmegaConf.create({
+        "name": "blip2_image_eval",
+        "image_size": 224
+    })
     vis_processor = registry.get_processor_class(vis_processor_cfg.name).from_config(vis_processor_cfg)
     
     return model, vis_processor, args.gpu_id, model_config.model_type
