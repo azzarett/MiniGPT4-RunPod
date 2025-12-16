@@ -9,7 +9,7 @@ from pathlib import Path
 from omegaconf import OmegaConf
 from minigpt4.common.config import Config
 from minigpt4.common.registry import registry
-from minigpt4.conversation.conversation import Chat, CONV_VISION_Vicuna0, CONV_VISION_LLama2
+from minigpt4.conversation.conversation import Chat, CONV_VISION_Vicuna0, CONV_VISION_LLama2, CONV_VISION_minigptv2
 
 # Set HuggingFace cache to /runpod-volume/cache to use Network Volume
 os.environ['HF_HOME'] = '/runpod-volume/cache'
