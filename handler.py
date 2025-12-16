@@ -151,20 +151,24 @@ def handler(event):
         print(f"Instruction: {instruction}")
         
         # Prepare chat
-        # Re-initializing Chat object for each request to ensure clean state, 
-        # but model and processor are reused.
+        print("Initializing Chat object...")
         chat = Chat(model, vis_processor, device='cuda:{}'.format(gpu_id))
         
         chat_state = conv_dict[model_type].copy()
         img_list = []
         
+        print("Uploading image...")
         llm_message = chat.upload_img(image, chat_state, img_list)
+        
+        print("Encoding image...")
         chat.encode_img(img_list)
         
+        print("Asking instruction...")
         chat.ask(instruction, chat_state)
         
         print(f"Prompt: {chat_state.get_prompt()}")
 
+        print("Generating answer...")
         llm_message = chat.answer(conv=chat_state,
                                   img_list=img_list,
                                   num_beams=5,
@@ -172,10 +176,14 @@ def handler(event):
                                   repetition_penalty=1.05,
                                   max_new_tokens=300,
                                   max_length=2000)[0]
+        print("Answer generated.")
                                   
         return {"output": llm_message}
         
     except Exception as e:
+        print(f"Handler exception: {e}")
+        import traceback
+        traceback.print_exc()
         return {"error": str(e)}
 
 runpod.serverless.start({"handler": handler})
