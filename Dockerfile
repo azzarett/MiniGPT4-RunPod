@@ -1,9 +1,12 @@
-FROM pytorch/pytorch:2.0.0-cuda11.7-cudnn8-runtime
+FROM pytorch/pytorch:2.0.0-cuda11.7-cudnn8-devel
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     libgl1 libglib2.0-0 poppler-utils tesseract-ocr git wget build-essential python3-dev cmake && \
     rm -rf /var/lib/apt/lists/*
+
+# Set library path for bitsandbytes
+ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64:/opt/conda/lib:$LD_LIBRARY_PATH"
 
 WORKDIR /app
 
