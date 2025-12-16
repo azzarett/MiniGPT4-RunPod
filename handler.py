@@ -60,11 +60,11 @@ def download_model(model_url, model_path):
         raise
 
 def setup_model():
-    cfg_path = os.environ.get("CFG_PATH", "eval_configs/minigpt4_eval.yaml")
+    cfg_path = os.environ.get("CFG_PATH", "eval_configs/minigptv2_eval.yaml")
     # Update default model path to use volume
-    model_path = os.environ.get("MODEL_PATH", "/runpod-volume/checkpoints/mini-gpt4-7b/model.pth")
-    model_url = os.environ.get("MODEL_URL", "https://huggingface.co/Vision-CAIR/MiniGPT-4/resolve/main/model.pth")
-    llama_model = os.environ.get("LLAMA_MODEL", "lmsys/vicuna-7b-v1.3")
+    model_path = os.environ.get("MODEL_PATH", "/runpod-volume/checkpoints/minigptv2/checkpoint.pth")
+    model_url = os.environ.get("MODEL_URL", "https://huggingface.co/Vision-CAIR/MiniGPT-v2/resolve/main/minigptv2_checkpoint.pth")
+    llama_model = os.environ.get("LLAMA_MODEL", "meta-llama/Llama-2-7b-chat-hf")
     gpu_id = int(os.environ.get("GPU_ID", 0))
     
     # Auto-download model if not present
@@ -87,21 +87,23 @@ def setup_model():
     if llama_model:
         model_config.llama_model = llama_model
     
+    # Ensure image size is 448 for v2
+    model_config.image_size = 448
+
     model_cls = registry.get_model_class(model_config.arch)
     model = model_cls.from_config(model_config).to('cuda:{}'.format(args.gpu_id))
     
     # Manually construct visual processor config since we disabled dataset builders
-    # vis_processor_cfg = cfg.datasets_cfg.cc_sbu_align.vis_processor.train
     vis_processor_cfg = OmegaConf.create({
         "name": "blip2_image_eval",
         "image_size": 448
     })
     vis_processor = registry.get_processor_class(vis_processor_cfg.name).from_config(vis_processor_cfg)
     
-    return model, vis_processor, args.gpu_id, model_config.model_type
+    return model, vis_processor, args.gpu_id, "minigpt_v2"
 
 print("Loading model...")
-print(f"Model path: {os.environ.get('MODEL_PATH', '/runpod-volume/checkpoints/mini-gpt4-7b/model.pth')}")
+print(f"Model path: {os.environ.get('MODEL_PATH', '/runpod-volume/checkpoints/minigptv2/checkpoint.pth')}")
 # Initialize model globally to cache it
 try:
     model, vis_processor, gpu_id, model_type = setup_model()
@@ -115,7 +117,8 @@ except Exception as e:
 
 conv_dict = {
     'pretrain_vicuna0': CONV_VISION_Vicuna0,
-    'pretrain_llama2': CONV_VISION_LLama2
+    'pretrain_llama2': CONV_VISION_LLama2,
+    'minigpt_v2': CONV_VISION_minigptv2
 }
 
 def handler(event):
