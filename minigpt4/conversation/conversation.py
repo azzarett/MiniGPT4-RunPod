@@ -156,7 +156,7 @@ class Chat:
             conv.append_message(conv.roles[0], text)
 
     def answer_prepare(self, conv, img_list, max_new_tokens=300, num_beams=1, min_length=1, top_p=0.9,
-                       repetition_penalty=1.05, length_penalty=1, temperature=1.0, max_length=2000):
+                       repetition_penalty=1.05, length_penalty=1, temperature=1.0, max_length=2000, do_sample=True):
         conv.append_message(conv.roles[1], None)
         prompt = conv.get_prompt()
         embs = self.model.get_context_emb(prompt, img_list)
@@ -173,7 +173,7 @@ class Chat:
             max_new_tokens=max_new_tokens,
             stopping_criteria=self.stopping_criteria,
             num_beams=num_beams,
-            do_sample=True,
+            do_sample=do_sample,
             min_length=min_length,
             top_p=top_p,
             repetition_penalty=repetition_penalty,
