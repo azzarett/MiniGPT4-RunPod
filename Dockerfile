@@ -1,4 +1,4 @@
-FROM pytorch/pytorch:2.0.0-cuda11.7-cudnn8-devel
+FROM runpod/pytorch:2.0.1-py3.10-cuda11.8.0-devel
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y \
     rm -rf /var/lib/apt/lists/*
 
 # Set library path for bitsandbytes
-ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64:/opt/conda/lib:$LD_LIBRARY_PATH"
+# ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64:/opt/conda/lib:$LD_LIBRARY_PATH"
 
 WORKDIR /app
 
