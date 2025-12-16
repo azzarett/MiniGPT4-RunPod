@@ -81,6 +81,8 @@ def setup_model():
 
     model_config = cfg.model_cfg
     model_config.device_8bit = args.gpu_id
+    model_config.image_size = 448 # Increase resolution for document reading
+    
     # Override llama model path (HF repo or local path)
     if llama_model:
         model_config.llama_model = llama_model
@@ -92,7 +94,7 @@ def setup_model():
     # vis_processor_cfg = cfg.datasets_cfg.cc_sbu_align.vis_processor.train
     vis_processor_cfg = OmegaConf.create({
         "name": "blip2_image_eval",
-        "image_size": 224
+        "image_size": 448
     })
     vis_processor = registry.get_processor_class(vis_processor_cfg.name).from_config(vis_processor_cfg)
     
