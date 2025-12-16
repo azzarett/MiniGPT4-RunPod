@@ -136,12 +136,17 @@ def handler(event):
         else:
             # Assume base64
             try:
+                if "," in image_input:
+                    image_input = image_input.split(",")[1]
                 image_bytes = base64.b64decode(image_input)
                 image = Image.open(io.BytesIO(image_bytes)).convert('RGB')
-            except:
+            except Exception as e:
+                print(f"Error decoding image: {e}")
                 return {"error": "Invalid image data"}
 
+        print(f"Image loaded: {image.size}")
         instruction = job_input.get("instruction", "Describe this image.")
+        print(f"Instruction: {instruction}")
         
         # Prepare chat
         # Re-initializing Chat object for each request to ensure clean state, 
@@ -156,6 +161,8 @@ def handler(event):
         
         chat.ask(instruction, chat_state)
         
+        print(f"Prompt: {chat_state.get_prompt()}")
+
         llm_message = chat.answer(conv=chat_state,
                                   img_list=img_list,
                                   num_beams=1,
