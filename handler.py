@@ -71,7 +71,9 @@ def setup_model():
         print(f"Detected old model path in env: {model_path}. Switching to MiniGPT-v2 path: {default_v2_path}")
         model_path = default_v2_path
 
-    model_url = "https://huggingface.co/Vision-CAIR/MiniGPT-v2/resolve/main/minigptv2_checkpoint.pth"
+    model_url = "https://huggingface.co/spaces/Vision-CAIR/MiniGPT-v2/resolve/main/minigptv2_checkpoint.pth"
+    print(f"Using Model URL: {model_url}")
+    
     llama_model = os.environ.get("LLAMA_MODEL", "meta-llama/Llama-2-7b-chat-hf")
     gpu_id = int(os.environ.get("GPU_ID", 0))
     
