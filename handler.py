@@ -165,8 +165,9 @@ def handler(event):
 
         llm_message = chat.answer(conv=chat_state,
                                   img_list=img_list,
-                                  num_beams=1,
-                                  temperature=1.0,
+                                  num_beams=5,
+                                  temperature=0.1,
+                                  repetition_penalty=1.05,
                                   max_new_tokens=300,
                                   max_length=2000)[0]
                                   
