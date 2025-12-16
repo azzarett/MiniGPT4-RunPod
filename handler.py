@@ -61,9 +61,17 @@ def download_model(model_url, model_path):
 
 def setup_model():
     cfg_path = os.environ.get("CFG_PATH", "eval_configs/minigptv2_eval.yaml")
-    # Update default model path to use volume
-    model_path = os.environ.get("MODEL_PATH", "/runpod-volume/checkpoints/minigptv2/checkpoint.pth")
-    model_url = os.environ.get("MODEL_URL", "https://huggingface.co/Vision-CAIR/MiniGPT-v2/resolve/main/minigptv2_checkpoint.pth")
+    
+    # Force correct path for MiniGPT-v2 to avoid conflict with old env vars
+    default_v2_path = "/runpod-volume/checkpoints/minigptv2/checkpoint.pth"
+    model_path = os.environ.get("MODEL_PATH", default_v2_path)
+    
+    # If the env var points to the old v1 model, force switch to v2 path
+    if "mini-gpt4-7b" in model_path:
+        print(f"Detected old model path in env: {model_path}. Switching to MiniGPT-v2 path: {default_v2_path}")
+        model_path = default_v2_path
+
+    model_url = "https://huggingface.co/Vision-CAIR/MiniGPT-v2/resolve/main/minigptv2_checkpoint.pth"
     llama_model = os.environ.get("LLAMA_MODEL", "meta-llama/Llama-2-7b-chat-hf")
     gpu_id = int(os.environ.get("GPU_ID", 0))
     
