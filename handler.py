@@ -173,6 +173,8 @@ def handler(event):
         instruction = job_input.get("instruction", "Describe this image.")
         print(f"Instruction: {instruction}")
         
+        # Use the passed instruction directly
+        
         # Prepare chat
         print("Initializing Chat object...")
         chat = Chat(model, vis_processor, device='cuda:{}'.format(gpu_id))
