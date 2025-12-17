@@ -129,7 +129,7 @@ CONV_VISION_LLama2 = Conversation(
 
 CONV_VISION_minigptv2 = Conversation(
     system="",
-    roles=("<s>[INST] ", " [/INST]"),
+    roles=("[INST] ", " [/INST]"),
     messages=[],
     offset=2,
     sep_style=SeparatorStyle.SINGLE,
