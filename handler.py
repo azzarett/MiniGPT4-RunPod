@@ -166,7 +166,10 @@ def handler(event):
                 print(f"Error decoding image: {e}")
                 return {"error": "Invalid image data"}
 
-        print(f"Image loaded: {image.size}")
+        print(f"Original image size: {image.size}")
+        # Resize to 448x448 to match model expectations
+        image = image.resize((448, 448), Image.Resampling.LANCZOS)
+        print(f"Resized image size: {image.size}")
         instruction = job_input.get("instruction", "Describe this image.")
         print(f"Instruction: {instruction}")
         
@@ -192,8 +195,9 @@ def handler(event):
         llm_message = chat.answer(conv=chat_state,
                                   img_list=img_list,
                                   num_beams=1,
-                                  do_sample=False,
-                                  temperature=0.0,
+                                  do_sample=True,
+                                  temperature=0.1,
+                                  top_p=0.9,
                                   repetition_penalty=1.5,
                                   max_new_tokens=200,
                                   max_length=2000)[0]
