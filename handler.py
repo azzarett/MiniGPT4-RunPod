@@ -184,11 +184,11 @@ def handler(event):
         print("Generating answer...")
         llm_message = chat.answer(conv=chat_state,
                                   img_list=img_list,
-                                  num_beams=5,
+                                  num_beams=1,
                                   do_sample=False,
                                   temperature=1.0,
-                                  repetition_penalty=1.05,
-                                  max_new_tokens=300,
+                                  repetition_penalty=1.2,
+                                  max_new_tokens=500,
                                   max_length=2000)[0]
         print("Answer generated.")
         print(f"LLM Response: {llm_message}")
