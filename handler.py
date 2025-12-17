@@ -97,27 +97,24 @@ def setup_model():
 
     model_config = cfg.model_cfg
     model_config.device_8bit = args.gpu_id
-    model_config.image_size = 448 # Increase resolution for document reading
+    model_config.image_size = 224 # Standard resolution for MiniGPT-4 v1
     model_config.low_resource = False # Disable 8-bit to avoid quantization artifacts
     
     # Override llama model path (HF repo or local path)
     if llama_model:
         model_config.llama_model = llama_model
     
-    # Ensure image size is 448 for v2
-    model_config.image_size = 448
-
     model_cls = registry.get_model_class(model_config.arch)
     model = model_cls.from_config(model_config).to('cuda:{}'.format(args.gpu_id))
     
     # Manually construct visual processor config since we disabled dataset builders
     vis_processor_cfg = OmegaConf.create({
         "name": "blip2_image_eval",
-        "image_size": 448
+        "image_size": 224
     })
     vis_processor = registry.get_processor_class(vis_processor_cfg.name).from_config(vis_processor_cfg)
     
-    return model, vis_processor, args.gpu_id, "minigpt_v2"
+    return model, vis_processor, args.gpu_id, "pretrain_vicuna0"
 
 print("Loading model...")
 print(f"Model path: {os.environ.get('MODEL_PATH', '/runpod-volume/checkpoints/minigptv2/checkpoint.pth')}")
@@ -167,8 +164,8 @@ def handler(event):
                 return {"error": "Invalid image data"}
 
         print(f"Original image size: {image.size}")
-        # Resize to 448x448 to match model expectations
-        image = image.resize((448, 448), Image.Resampling.LANCZOS)
+        # Resize to 224x224 to match model expectations for v1
+        image = image.resize((224, 224), Image.Resampling.LANCZOS)
         print(f"Resized image size: {image.size}")
         instruction = job_input.get("instruction", "Describe this image.")
         print(f"Instruction: {instruction}")
