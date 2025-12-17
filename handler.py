@@ -31,8 +31,14 @@ def download_model(model_url, model_path):
     os.makedirs(model_dir, exist_ok=True)
     
     if os.path.exists(model_path):
-        print(f"Model already exists at {model_path}")
-        return
+        # Check for corrupt/small files (e.g. error pages saved as .pth)
+        file_size_mb = os.path.getsize(model_path) / (1024 * 1024)
+        if file_size_mb < 10:
+            print(f"Found existing model file but it is too small ({file_size_mb:.2f} MB). Deleting and re-downloading.")
+            os.remove(model_path)
+        else:
+            print(f"Model already exists at {model_path} ({file_size_mb:.2f} MB)")
+            return
     
     print(f"Downloading model from {model_url}...")
     try:
@@ -187,9 +193,9 @@ def handler(event):
                                   img_list=img_list,
                                   num_beams=1,
                                   do_sample=False,
-                                  temperature=1.0,
-                                  repetition_penalty=1.2,
-                                  max_new_tokens=500,
+                                  temperature=0.0,
+                                  repetition_penalty=1.5,
+                                  max_new_tokens=200,
                                   max_length=2000)[0]
         print("Answer generated.")
         print(f"LLM Response: {llm_message}")
