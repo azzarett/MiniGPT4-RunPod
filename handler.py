@@ -92,6 +92,7 @@ def setup_model():
     model_config = cfg.model_cfg
     model_config.device_8bit = args.gpu_id
     model_config.image_size = 448 # Increase resolution for document reading
+    model_config.low_resource = False # Disable 8-bit to avoid quantization artifacts
     
     # Override llama model path (HF repo or local path)
     if llama_model:

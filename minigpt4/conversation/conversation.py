@@ -188,7 +188,8 @@ class Chat:
         output_text = self.model.llama_tokenizer.decode(output_token, skip_special_tokens=True)
 
         output_text = output_text.split('###')[0]  # remove the stop sign '###'
-        output_text = output_text.split('Assistant:')[-1].strip()
+        output_text = output_text.split('[/INST]')[-1].strip() # Handle Llama-2 format
+        output_text = output_text.split('Assistant:')[-1].strip() # Handle Vicuna format
 
         conv.messages[-1][1] = output_text
         return output_text, output_token.cpu().numpy()
