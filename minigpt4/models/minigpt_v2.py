@@ -135,5 +135,16 @@ class MiniGPTv2(MiniGPTBase):
             print("Load Minigpt-4-LLM Checkpoint: {}".format(ckpt_path))
             ckpt = torch.load(ckpt_path, map_location="cpu")
             msg = model.load_state_dict(ckpt['model'], strict=False)
+            print("Checkpoint Load Status:")
+            print(f"Missing Keys: {len(msg.missing_keys)}")
+            # print(f"Missing Keys List: {msg.missing_keys}") 
+            print(f"Unexpected Keys: {len(msg.unexpected_keys)}")
+            # Check if critical keys are missing
+            critical_keys = ['llama_proj.weight', 'llama_proj.bias']
+            for key in critical_keys:
+                if key in msg.missing_keys:
+                    print(f"CRITICAL WARNING: {key} is MISSING from checkpoint!")
+                else:
+                    print(f"SUCCESS: {key} loaded from checkpoint.")
 
         return model
